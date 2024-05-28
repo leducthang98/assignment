@@ -1,0 +1,46 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0.25
+    platform: linux/x86_64
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql_mode="" --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: default
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1
+      LANG: C.UTF-8
+    ports:
+      - 3316:3306
+
+  redis:
+    image: 'redis:6-alpine'
+    platform: linux/x86_64
+    ports:
+      - 6389:6379
+
+  backend:
+    build: .
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      # app
+      - NODE_ENV=development
+      - APP_NAME=assignment
+      - PORT=3000
+      # database
+      - DATABASE_TYPE=mysql
+      - DATABASE_HOST=mysql
+      - DATABASE_PORT=3306
+      - DATABASE_USERNAME=admin
+      - DATABASE_PASSWORD=1
+      - DATABASE_NAME=default
+      - DATABASE_LOG_ENABLE=true
+      - DATABASE_LIMIT_CONNECTION=5
+      # redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - mysql
+      - redis
