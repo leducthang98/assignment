@@ -13,8 +13,13 @@
     ```bash
     make run-prod
     ```
+3. Execute the command for the database migration within the backend container:
 
-3. The Backend will be available at: [http://localhost:3000](http://localhost:3000)
-3. The Frontend will be available at: [http://localhost:3001](http://localhost:3001)
+    ```bash
+    npm run typeorm:migrate
+    ```
+
+4. The Backend will be available at: [http://localhost:3000](http://localhost:3000)
+5. The Frontend will be available at: [http://localhost:3001](http://localhost:3001)
 
 Feel free to customize the guide further according to your project's specific needs.
