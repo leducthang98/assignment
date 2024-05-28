@@ -43,4 +43,12 @@ export const ERROR: ErrorType = {
     message: 'refresh token expired',
     code: 8,
   },
+  POOL_NOT_EXIST: {
+    message: 'pool not exist',
+    code: 9,
+  },
+  NOT_FOUND: {
+    message: 'not found',
+    code: 10,
+  },
 };

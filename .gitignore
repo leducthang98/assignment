@@ -37,7 +37,7 @@ lerna-debug.log*
 .env
 
 # Migrations
-src/migrations/*.ts
+# src/migrations/*.ts
 
 # Docker volumes
 mysql-data

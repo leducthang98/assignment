@@ -20,7 +20,7 @@ export class AppConfigService {
     return value;
   }
 
-  getMysqlConfig(datasourceName: string): TypeOrmModuleOptions {
+  getDatabaseConfig(datasourceName: string): TypeOrmModuleOptions {
     const typeOrmConfig = {
       name: datasourceName,
       type: this.getEnv('DATABASE_TYPE'),
@@ -30,7 +30,6 @@ export class AppConfigService {
       password: this.getEnv('DATABASE_PASSWORD'),
       database: this.getEnv('DATABASE_NAME'),
       logging: Boolean(this.getEnv('DATABASE_LOG_ENABLE')),
-      ssl: { rejectUnauthorized: false },
       synchronize: false,
       autoLoadEntities: true,
       extra: {

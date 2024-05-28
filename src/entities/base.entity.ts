@@ -1,9 +1,20 @@
-import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export class BaseEntity {
-  @CreateDateColumn()
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
   createdAt?: string;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
   updatedAt?: string;
 }

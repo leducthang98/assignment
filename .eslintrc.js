@@ -280,7 +280,7 @@ module.exports = {
     'id-match': 'error',
     'max-classes-per-file': ['error', 2],
     'max-len': [
-      'error',
+      'off',
       {
         code: 150,
       },
@@ -372,7 +372,7 @@ module.exports = {
     'unicorn/expiring-todo-comments': 'error',
     'unicorn/explicit-length-check': 'error',
     'unicorn/filename-case': [
-      'error',
+      'off',
       {
         cases: {
           kebabCase: true,
