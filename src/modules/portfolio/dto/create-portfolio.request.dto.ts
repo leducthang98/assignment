@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreatePortfolioRequestDto {
   @ApiProperty({
@@ -13,4 +13,10 @@ export class CreatePortfolioRequestDto {
   })
   @IsString()
   email: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNumber()
+  investmentAmount: number;
 }

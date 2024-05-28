@@ -51,4 +51,8 @@ export const ERROR: ErrorType = {
     message: 'not found',
     code: 10,
   },
+  PORTFOLIO_EXISTED: {
+    message: 'this user already have portfolio',
+    code: 11,
+  },
 };

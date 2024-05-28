@@ -16,7 +16,11 @@ export class PortfolioController {
   async createPortfolio(
     @Body() body: CreatePortfolioRequestDto,
   ): Promise<PortfolioEntity> {
-    return this.portfolioService.createPortfolio(body.pool, body.email);
+    return this.portfolioService.createPortfolio(
+      body.pool,
+      body.email,
+      body.investmentAmount,
+    );
   }
 
   @Get(':email')

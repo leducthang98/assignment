@@ -9,7 +9,6 @@ import { COMMON_CONSTANT } from './constants/common.constant';
 import { HealthCheckModule } from './modules/health-check/health-check.module';
 import { LiquidityModule } from './modules/liquidity/liquidity.module';
 import { PortfolioModule } from './modules/portfolio/portfolio.module';
-import { UserModule } from './modules/user/user.module';
 import { HttpExceptionFilter } from './shared/filters/exception.filter';
 import { ResponseTransformInterceptor } from './shared/interceptors/response.interceptor';
 import { AppConfigService } from './shared/services/config.service';
@@ -40,7 +39,6 @@ import { SharedModule } from './shared/shared.modules';
     }),
     SharedModule,
     HealthCheckModule,
-    UserModule,
     PortfolioModule,
     LiquidityModule,
   ],

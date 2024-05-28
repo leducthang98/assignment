@@ -5,20 +5,23 @@ import { PortfolioEntity } from 'src/entities/portfolio.entity';
 import { UserEntity } from 'src/entities/user.entity';
 import { LiquidityService } from 'src/modules/liquidity/liquidity.service';
 import { BaseException } from 'src/shared/filters/exception.filter';
-import { Repository } from 'typeorm';
+import type { EntityManager } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class PortfolioService {
   constructor(
     @InjectRepository(PortfolioEntity)
     private readonly portfolioRepository: Repository<PortfolioEntity>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
     private readonly liquidityService: LiquidityService,
+    private readonly datasource: DataSource,
   ) {}
 
-  async createPortfolio(pool: string, email: string): Promise<PortfolioEntity> {
-    const investmentAmount = 100000;
+  async createPortfolio(
+    pool: string,
+    email: string,
+    investmentAmount: number,
+  ): Promise<PortfolioEntity> {
     // get pool by poolName
     const poolData = await this.liquidityService.getPoolByName(pool);
 
@@ -26,21 +29,42 @@ export class PortfolioService {
       throw new BaseException(ERROR.POOL_NOT_EXIST);
     }
 
-    const user: UserEntity = await this.userRepository.findOne({
-      where: {
-        email,
-      },
+    let createPortfolio: PortfolioEntity = null;
+
+    await this.datasource.transaction(async (entityManager: EntityManager) => {
+      let user: UserEntity = await entityManager.findOne(UserEntity, {
+        where: {
+          email,
+        },
+      });
+
+      if (!user) {
+        user = await entityManager.save(UserEntity, { email });
+      }
+
+      // valdate portfolio
+      const isPortfolioExist = await entityManager.exists(PortfolioEntity, {
+        where: {
+          userId: user.id,
+        },
+      });
+
+      if (isPortfolioExist) {
+        throw new BaseException(ERROR.PORTFOLIO_EXISTED);
+      }
+
+      const portfolio: PortfolioEntity = new PortfolioEntity();
+      portfolio.pool = pool;
+      portfolio.userId = user.id;
+      portfolio.lpTokens = this.liquidityService.calculatePortfolioTokens(
+        investmentAmount,
+        poolData.lpTokenPrice,
+      );
+
+      createPortfolio = await entityManager.save(PortfolioEntity, portfolio);
     });
 
-    const portfolio: PortfolioEntity = new PortfolioEntity();
-    portfolio.pool = pool;
-    portfolio.userId = user.id;
-    portfolio.lpTokens = this.liquidityService.calculatePortfolioTokens(
-      investmentAmount,
-      poolData.lpTokenPrice,
-    );
-
-    return this.portfolioRepository.save(portfolio);
+    return createPortfolio;
   }
 
   async findByUserEmail(email: string): Promise<PortfolioEntity[]> {
