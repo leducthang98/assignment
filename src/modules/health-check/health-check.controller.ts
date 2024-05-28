@@ -4,8 +4,10 @@ import type { HealthCheckResponseDto } from 'src/modules/health-check/dto/health
 
 import { HealthCheckService } from './health-check.service';
 
-@Controller('health-check')
-@ApiTags('HealthCheck')
+const CONTROLLER_NAME = 'health-check';
+
+@Controller(CONTROLLER_NAME)
+@ApiTags(CONTROLLER_NAME)
 export class HealthCheckController {
   constructor(private readonly healthCheckService: HealthCheckService) {}
 
