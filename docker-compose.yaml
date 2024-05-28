@@ -40,3 +40,12 @@ services:
     depends_on:
       - postgres
       - redis
+
+  frontend:
+    image: nginx:latest
+    ports:
+      - "3001:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    depends_on:
+      - backend
