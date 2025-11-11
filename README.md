@@ -123,17 +123,3 @@ The project includes unit and E2E tests covering:
 - Error handling
 
 Run tests with `pnpm test:api` or `pnpm test:e2e:api`.
-
-## Troubleshooting
-
-**Port conflicts:** Stop conflicting services or modify ports in `docker-compose.yml`.
-
-**Redis errors:** Ensure Redis is running. Check `REDIS_HOST` and `REDIS_PORT` in `.env`.
-
-**Solana RPC slow:** Use a private RPC by setting `SOLANA_RPC_URL` in `.env`.
-
-**Docker issues:** Run `docker-compose down -v` then `docker-compose up --build`.
-
-## License
-
-MIT
