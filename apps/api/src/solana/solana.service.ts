@@ -27,7 +27,6 @@ export class SolanaService {
     try {
       const cached = await this.cacheManager.get<{ blockNumber: number; transactionCount: number }>(cacheKey);
       if (cached) {
-        console.log('cache hit')
         return cached;
       }
 

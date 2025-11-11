@@ -67,18 +67,28 @@ describe('API E2E Tests', () => {
         .expect(500);
     });
 
-    it('should return cached response on second request', async () => {
+    it('should serve cached responses significantly faster', async () => {
       const blockNumber = '200000001';
 
+      // First request - fetches from Solana
+      const start1 = Date.now();
       const firstResponse = await request(app.getHttpServer())
         .get(`/solana/block/transaction-count?blockNumber=${blockNumber}`)
         .expect(200);
+      const duration1 = Date.now() - start1;
 
+      // Second request - from cache
+      const start2 = Date.now();
       const secondResponse = await request(app.getHttpServer())
         .get(`/solana/block/transaction-count?blockNumber=${blockNumber}`)
         .expect(200);
+      const duration2 = Date.now() - start2;
 
+      // Verify both responses are identical
       expect(firstResponse.body).toEqual(secondResponse.body);
+
+      // Cached request should be at least 50% faster
+      expect(duration2).toBeLessThan(duration1 * 0.5);
     });
   });
 });
