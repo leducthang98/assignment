@@ -1,0 +1,22 @@
+{
+  "name": "solana-api-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:api": "pnpm --filter api dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev": "pnpm --parallel --filter api --filter web dev",
+    "build:api": "pnpm --filter api build",
+    "build:web": "pnpm --filter web build",
+    "build": "pnpm --filter api build && pnpm --filter web build",
+    "test:api": "pnpm --filter api test",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:build": "docker-compose build",
+    "docker:rebuild": "docker-compose up -d --build"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
