@@ -66,6 +66,5 @@ describe('API E2E Tests', () => {
         .get('/solana/block/transaction-count?blockNumber=invalid')
         .expect(500);
     });
-    
   });
 });

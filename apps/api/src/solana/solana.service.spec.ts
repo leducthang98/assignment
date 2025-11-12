@@ -66,11 +66,7 @@ describe('SolanaService', () => {
     it('should call RPC and return transaction count in expected format', async () => {
       const mockBlockNumber = 123456789;
       const mockBlock = {
-        transactions: [
-          { transaction: 'tx1' },
-          { transaction: 'tx2' },
-          { transaction: 'tx3' },
-        ],
+        transactions: [{ transaction: 'tx1' }, { transaction: 'tx2' }, { transaction: 'tx3' }],
       };
 
       cacheManager.get.mockResolvedValue(null); // Cache miss

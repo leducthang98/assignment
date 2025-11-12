@@ -28,7 +28,7 @@ export default function Home() {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
       const response = await fetch(
-        `${apiUrl}/solana/block/transaction-count?blockNumber=${blockNumber}`
+        `${apiUrl}/solana/block/transaction-count?blockNumber=${blockNumber}`,
       );
 
       if (!response.ok) {

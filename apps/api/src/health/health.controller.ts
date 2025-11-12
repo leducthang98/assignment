@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { Connection, clusterApiUrl } from '@solana/web3.js';
+import { Connection, clusterApiUrl, Cluster } from '@solana/web3.js';
 
 @ApiTags('health')
 @Controller('health')
@@ -16,7 +16,7 @@ export class HealthController {
   ) {
     const network = this.configService.get<string>('solana.network');
     const customRpcUrl = this.configService.get<string>('solana.rpcUrl');
-    const rpcUrl = customRpcUrl || clusterApiUrl(network as any);
+    const rpcUrl = customRpcUrl || clusterApiUrl(network as Cluster);
     this.connection = new Connection(rpcUrl, 'confirmed');
   }
 

@@ -2,7 +2,7 @@ import { Injectable, Logger, Inject, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { Connection, clusterApiUrl } from '@solana/web3.js';
+import { Connection, clusterApiUrl, Cluster } from '@solana/web3.js';
 
 @Injectable()
 export class SolanaService {
@@ -15,17 +15,21 @@ export class SolanaService {
   ) {
     const network = this.configService.get<string>('solana.network');
     const customRpcUrl = this.configService.get<string>('solana.rpcUrl');
-    const rpcUrl = customRpcUrl || clusterApiUrl(network as any);
+    const rpcUrl = customRpcUrl || clusterApiUrl(network as Cluster);
     this.connection = new Connection(rpcUrl, 'confirmed');
 
     this.logger.log(`Connected to Solana ${network}`);
   }
 
-  async getBlockTransactionCount(blockNumber: number): Promise<{ blockNumber: number; transactionCount: number }> {
+  async getBlockTransactionCount(
+    blockNumber: number,
+  ): Promise<{ blockNumber: number; transactionCount: number }> {
     const cacheKey = `block:${blockNumber}`;
 
     try {
-      const cached = await this.cacheManager.get<{ blockNumber: number; transactionCount: number }>(cacheKey);
+      const cached = await this.cacheManager.get<{ blockNumber: number; transactionCount: number }>(
+        cacheKey,
+      );
       if (cached) {
         return cached;
       }

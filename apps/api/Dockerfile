@@ -9,7 +9,9 @@ COPY apps/api/package.json ./apps/api/
 
 RUN pnpm install --frozen-lockfile
 
-COPY apps/api ./apps/api
+COPY apps/api/tsconfig.json ./apps/api/
+COPY apps/api/nest-cli.json ./apps/api/
+COPY apps/api/src ./apps/api/src
 
 RUN pnpm --filter api build
 
